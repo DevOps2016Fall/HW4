@@ -8,11 +8,12 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "express": "^4.12.3",
     "multer": "^0.1.8",
     "redis": "^0.12.1",
     "http-proxy": "^1.11.1",
-    "request": "^2.54.0"
+    "request": "^2.54.0",
+    "ip":"*"
   }
 }

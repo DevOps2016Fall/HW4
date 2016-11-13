@@ -19,38 +19,7 @@ var infrastructure =
     var proxy   = httpProxy.createProxyServer(options);
     var server  = http.createServer(function(req, res)
     {
-      if (req.url == "/spawn")
-      {
-        START_PORT +=1;
-        exec('forever start app.js ' + START_PORT,function(err,out,code)
-        {
-          console.log("attempting to launch "+ START_PORT.toString() +" server");
-          if (err instanceof Error)
-            throw err;
-          if( err )
-          {
-            console.error( err );
-          }
-          client.lpush("serversList","http://localhost:"+START_PORT.toString()+"/");
-        });
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end("Create a  server : "+ "http://localhost:"+START_PORT.toString());
-      }
-      if(req.url == "/destroy")
-      {
-        client.lpop("serversList",function(err, src){
-          var start = src.indexOf("t:")+2;
-          var PortID = src.substring(start,start+4); //"http://localhost:3000/"
-          exec("forever list | grep '"+PortID+"' | awk -F '] ' '{print $2}' | awk -F ' ' '{print $1}'", function(err,out,code)
-          {
-            exec("forever stop "+ out, function(err,out,code){
-              console.log("destroy server: "+ PortID.toString());
-            });
-          });
-          res.writeHead(200, {'Content-Type': 'text/plain'});
-          res.end("Destroy a server: http://localhost:"+ PortID.toString()+"/");
-        });
-      }
+
       if(req.url == "/")
       {
         client.rpoplpush("serversList", "serversList", function(err, TARGET){
@@ -70,19 +39,6 @@ var infrastructure =
 
     });
     server.listen(8081);
-
-    exec('forever start app.js 3000', function(err, out, code)
-    {
-      client.del("serversList");
-      client.lpush("serversList","http://localhost:3000/");
-      console.log("attempting to launch  3000 server");
-      if (err instanceof Error)
-            throw err;
-      if( err )
-      {
-        console.error( err );
-      }
-    });
   },
 
   teardown: function()
