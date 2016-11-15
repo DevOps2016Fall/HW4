@@ -1,31 +1,37 @@
 
-# app:
-#     build: ./app
-#     links:
-#         - redis
-#     ports:
-#         - "8585:3000"
-# # proxy:
-# #     build: ./proxy
-# #     links:
-# #         - redis
-# #     ports:
-# #         - "8383:8081"
-#
-# redis:
-#     image: redis
-#     ports:
-#         - "6379"
-
-version: '2'
-services:
-  proxy:
-    build: ./proxy
+app1:
+    build: ./app
+    links:
+        - redis
     ports:
-     - "8883:8081"
-    volumes:
-     - .:/proxy
-    depends_on:
-     - redis
-  redis:
+        - "8585:3000"
+app2:
+    build: ./app
+    links:
+        - redis
+    ports:
+        - "8686:3000"
+proxy:
+    build: ./proxy
+    links:
+        - redis
+    ports:
+        - "8081:8081"
+
+redis:
     image: redis
+    ports:
+        - "6379:6379"
+
+# version: '2'
+# services:
+#   proxy:
+#     build: ./proxy
+#     ports:
+#      - "8883:8081"
+#     volumes:
+#      - .:/proxy
+#     depends_on:
+#      - redis
+#   redis:
+#     image: redis

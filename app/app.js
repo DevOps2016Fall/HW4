@@ -60,7 +60,7 @@ app.get('/meow', function(req, res) {
 });
 
 app.get('/', function(req, res) {
-  res.send("Hello world from server :" + ip.address().tostring()+ " "+PORT.toString()+"/");
+  res.send("Hello world from server :" + ip.address()+ " "+PORT.toString()+"/");
 });
 
 app.get('/recent',function(req,res){
@@ -141,6 +141,8 @@ var server = app.listen(PORT, function () {
   // client.del('serversList')
   var host = server.address().address;
   var port = server.address().port;
+  console.log(ip.address());
+	client.lpush("serversList","http://"+ip.address()+":3000/");
   console.log('Example app listening at http://%s:%s', host, port);
 });
 

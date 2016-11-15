@@ -58,6 +58,28 @@ var infrastructure =
         proxy.web( req, res, {target: TARGET } );
         });
       }
+      if(req.url == "/recent")
+      {
+        client.rpoplpush("serversList", "serversList", function(err, TARGET){
+        console.log("Proxy now pointing to server:" + TARGET);
+        proxy.web( req, res, {target: TARGET+"rencent" } );
+        }); 
+      }
+      if(req.url == "/set")
+      {
+        client.rpoplpush("serversList", "serversList", function(err, TARGET){
+        console.log("Proxy now pointing to server:" + TARGET);
+        proxy.web( req, res, {target: TARGET+"set" } );
+        }); 
+      }
+      if(req.url == "/get")
+      {
+        client.rpoplpush("serversList", "serversList", function(err, TARGET){
+        console.log("Proxy now pointing to server:" + TARGET);
+        proxy.web( req, res, {target: TARGET+"get" } );
+        }); 
+      }
+
       if(req.url == "/listservers")
       {
         var live_servers="The following servers are available: \n"
