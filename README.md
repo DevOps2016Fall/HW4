@@ -45,7 +45,7 @@ In this task, I have created the following folders/files
 ```
 
 * Under the ```deploy``` folder, I create a deploy.git repo, which will recieve the codes.
-* I creat a ```post-receive``` file, which will build, push the image into local registory; and then pull the latest image from teh registory, stop, remove previously running container/images, and run the latest container
+* I creat a [```post-receive```](https://github.com/DevOps2016Fall/HW4/blob/master/deploy/post-receive.sh) file, which will build, push the image into local registory; and then pull the latest image from teh registory, stop, remove previously running container/images, and run the latest container
 * NOTE: ALl the codes in the ```post-receive``` file are based on our blue-green deployment workshop.
 
 ```
@@ -75,7 +75,10 @@ docker run -p 50100:8080 -d --name app localhost:5000/task-app:current
   
 
 ###Task3 File IO [Youtube Demo](https://youtu.be/wx9n-nzHlqk)
- You want to create a container for a legacy application. You succeed, but you need access to a file that the legacy app creates.
+
+In this task, as in the task description, I want to create a container for a legacy application.  But I need access to a file that the legacy app creates.
+To complete this task, I did the following steps.
+ 
 
 
 * I created a image for container1 to run a command that outputs to a file, where I use socat to expose it over 9001 port
@@ -101,6 +104,7 @@ RUN apt-get -y update
 RUN apt-get -y install curl
 
 ```
+More details about how to run, please refer to the demo.
 
 
 
