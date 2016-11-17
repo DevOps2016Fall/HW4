@@ -7,7 +7,7 @@ In this task,
 
 * I have created two dockerfiles for [app](https://github.com/DevOps2016Fall/HW4/blob/master/app/Dockerfile) and [proxy](https://github.com/DevOps2016Fall/HW4/blob/master/proxy/Dockerfile), which will generate two images.
 * I have created a [docker-compose file](https://github.com/DevOps2016Fall/HW4/blob/master/docker-compose.yml), which will perform docker-compose to generate a cluster of containers running at the same time.
-* In proxy.js, I have implemented a ```spawn```functionality, when each time the url ```\spawn``` is hit, a new ```app``` container will be created and add it into the existing network. After that, the proxy container can also redirect traffic to the new app containers
+* In proxy.js, I have implemented a ```spawn```functionality, when each time the url ```\spawn``` is hit, a new ```app``` container will be created and add it into the existing network, which is actually running ```docker run -d -v /var/run/docker.sock:/var/run/docker.sock --link hw4_redis_1:redis hw4_app1```. After that, the proxy container can also redirect traffic to the new app containers
 
 By running the following command, all the containers will be up for service 
 
