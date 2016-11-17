@@ -1,20 +1,20 @@
 # HW4 - Docker Part Deux
 In this homework assignmetn, I practiced advanced features related to docker containers.
 
-###Task1 Dokcer Compose [Youtube Demo](https://youtu.be/qhxKBOQm7Nk)
+###Task1 Dokcer Compose [Youtube Demo](https://youtu.be/qUw5p2gXFto)
  
 In this task, 
 
 * I have created two dockerfiles for [app](https://github.com/DevOps2016Fall/HW4/blob/master/app/Dockerfile) and [proxy](https://github.com/DevOps2016Fall/HW4/blob/master/proxy/Dockerfile), which will generate two images.
 * I have created a [docker-compose file](https://github.com/DevOps2016Fall/HW4/blob/master/docker-compose.yml), which will perform docker-compose to generate a cluster of containers running at the same time.
-* I have the [spawn.sh](https://github.com/DevOps2016Fall/HW4/blob/master/spawn.sh) file, which will spawn new app containers and add it into the existing network. 
+* In proxy.js, I have implemented a ```spawn```functionality, when each time the url ```\spawn``` is hit, a new ```app``` container will be created and add it into the existing network. After that, the proxy container can also redirect traffic to the new app containers
 
 By running the following command, all the containers will be up for service 
 
 ```
 docker-compose up
 ```
-
+__More details about how to run it, please watch youtube demo__
 
 
 ###Task2 Docker Deploy [Youtube Demo](https://youtu.be/L2hofX9AZ_I)
@@ -72,7 +72,7 @@ docker tag localhost:5000/task2-app:latest localhost:5000/task-app:current
 docker run -p 50100:8080 -d --name app localhost:5000/task-app:current
 
 ```
-  
+__More details about how to run it, please watch youtube demo__  
 
 ###Task3 File IO [Youtube Demo](https://youtu.be/wx9n-nzHlqk)
 
@@ -104,7 +104,7 @@ RUN apt-get -y update
 RUN apt-get -y install curl
 
 ```
-More details about how to run, please refer to the demo.
+__More details about how to run it, please watch youtube demo__
 
 
 
