@@ -17,23 +17,6 @@ var infrastructure =
     var proxy   = httpProxy.createProxyServer(options);
     var server  = http.createServer(function(req, res)
     {
-      if (req.url == "/spawn")
-      {
-        START_PORT +=1
-        exec('forever start app.js ' + START_PORT,function(err,out,code)
-        {
-          console.log("attempting to launch "+ START_PORT.toString() +" server");
-          if (err instanceof Error)
-            throw err;
-          if( err )
-          {
-            console.error( err );
-          }
-          client.lpush("serversList","http://localhost:"+START_PORT.toString()+"/")
-        })
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end("Create a  server : "+ "http://localhost:"+START_PORT.toString());
-      }
       if(req.url == "/destroy")
       {
         client.lpop("serversList",function(err, src){
@@ -44,7 +27,7 @@ var infrastructure =
             exec("forever stop "+ out, function(err,out,code){
               console.log("destroy server: "+ PortID.toString())
             });
-          }); 
+          });
           res.writeHead(200, {'Content-Type': 'text/plain'});
           res.end("Destroy a server: http://localhost:"+ PortID.toString()+"/");
         })
@@ -57,42 +40,58 @@ var infrastructure =
         proxy.web( req, res, {target: TARGET } );
         });
       }
+      if (req.url == "/spawn")
+      {
+        exec('docker run -d -v /var/run/docker.sock:/var/run/docker.sock --link hw4_redis_1:redis hw4_app1',function(err,out,code)
+        {
+          console.log("attempting to launch a new container");
+          if (err instanceof Error)
+            throw err;
+          if( err )
+          {
+            console.error( err );
+          }
+          // client.lpush("serversList","http://localhost:"+START_PORT.toString()+"/")
+        });
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end("Created a new app container\n");
+      }
       if(req.url == "/recent")
       {
         client.rpoplpush("serversList", "serversList", function(err, TARGET){
         console.log("Proxy now pointing to server:" + TARGET);
         proxy.web( req, res, {target: TARGET+"rencent" } );
-        }); 
+        });
       }
       if(req.url == "/set")
       {
         client.rpoplpush("serversList", "serversList", function(err, TARGET){
         console.log("Proxy now pointing to server:" + TARGET);
         proxy.web( req, res, {target: TARGET+"set" } );
-        }); 
+        });
       }
       if(req.url == "/get")
       {
         client.rpoplpush("serversList", "serversList", function(err, TARGET){
         console.log("Proxy now pointing to server:" + TARGET);
         proxy.web( req, res, {target: TARGET+"get" } );
-        }); 
+        });
       }
 
       if(req.url == "/listservers")
       {
         var live_servers="The following servers are available: \n"
-        client.lrange('serversList',0,-1,function(err,value){ 
+        client.lrange('serversList',0,-1,function(err,value){
         value.forEach(function(item){
         live_servers +="\n\t" +item.toString()})
         res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(live_servers)}); 
+        res.end(live_servers)});
       }
 
     });
     server.listen(8081);
 
-    // exec('forever start main.js 3000', function(err, out, code) 
+    // exec('forever start main.js 3000', function(err, out, code)
     // {
     //   client.del("serversList")
     //   client.lpush("serversList","http://localhost:3000/")
@@ -103,7 +102,7 @@ var infrastructure =
     //   {
     //     console.error( err );
     //   }
-    // }); 
+    // });
   },
 
   teardown: function()

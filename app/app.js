@@ -60,7 +60,7 @@ app.get('/meow', function(req, res) {
 });
 
 app.get('/', function(req, res) {
-  res.send("Hello world from server :" + ip.address()+ " "+PORT.toString()+"/");
+  res.send("Hello world from server :" + ip.address()+ " "+PORT.toString()+"/\n");
 });
 
 app.get('/recent',function(req,res){

@@ -46,7 +46,7 @@ var infrastructure =
             exec("forever stop "+ out, function(err,out,code){
               console.log("destroy server: "+ PortID.toString())
             });
-          }); 
+          });
           res.writeHead(200, {'Content-Type': 'text/plain'});
           res.end("Destroy a server: http://localhost:"+ PortID.toString()+"/");
         })
@@ -63,48 +63,35 @@ var infrastructure =
         client.rpoplpush("serversList", "serversList", function(err, TARGET){
         console.log("Proxy now pointing to server:" + TARGET);
         proxy.web( req, res, {target: TARGET+"rencent" } );
-        }); 
+        });
       }
       if(req.url == "/set")
       {
         client.rpoplpush("serversList", "serversList", function(err, TARGET){
         console.log("Proxy now pointing to server:" + TARGET);
         proxy.web( req, res, {target: TARGET+"set" } );
-        }); 
+        });
       }
       if(req.url == "/get")
       {
         client.rpoplpush("serversList", "serversList", function(err, TARGET){
         console.log("Proxy now pointing to server:" + TARGET);
         proxy.web( req, res, {target: TARGET+"get" } );
-        }); 
+        });
       }
 
       if(req.url == "/listservers")
       {
         var live_servers="The following servers are available: \n"
-        client.lrange('serversList',0,-1,function(err,value){ 
+        client.lrange('serversList',0,-1,function(err,value){
         value.forEach(function(item){
         live_servers +="\n\t" +item.toString()})
         res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(live_servers)}); 
+        res.end(live_servers)});
       }
 
     });
-    server.listen(8081);
-
-    exec('forever start main.js 3000', function(err, out, code) 
-    {
-      client.del("serversList")
-      client.lpush("serversList","http://localhost:3000/")
-      console.log("attempting to launch  3000 server");
-      if (err instanceof Error)
-            throw err;
-      if( err )
-      {
-        console.error( err );
-      }
-    }); 
+    server.listen(8081); 
   },
 
   teardown: function()
