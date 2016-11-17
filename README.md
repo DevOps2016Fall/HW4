@@ -3,6 +3,7 @@ In this homework assignmetn, I practiced advanced features related to docker con
 
 ###Task1 Dokcer Compose [Youtube Demo](https://youtu.be/qUw5p2gXFto)
  
+ 
 In this task, 
 
 * I have created two dockerfiles for [app](https://github.com/DevOps2016Fall/HW4/blob/master/app/Dockerfile) and [proxy](https://github.com/DevOps2016Fall/HW4/blob/master/proxy/Dockerfile), which will generate two images.
